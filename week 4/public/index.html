@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Task Manager</a>
+        </div>
+    </nav>
+    <main class="container">
+        <h3>Manage Your Tasks</h3>
+        <div id="task-section" class="row"></div>
+        <h4>Add a New Task</h4>
+        <form id="taskForm">
+            <div class="input-field">
+                <input type="text" id="title" placeholder="Task Title" required>
+            </div>
+            <div class="input-field">
+                <textarea id="description" class="materialize-textarea" placeholder="Task Description" required></textarea>
+            </div>
+            <div class="input-field">
+                <select id="priority" required>
+                    <option value="" disabled selected>Choose Priority</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+            <button class="btn" type="submit">Add Task</button>
+        </form>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
