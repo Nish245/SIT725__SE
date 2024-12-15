@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-wrapper blue">
+            <a href="#" class="brand-logo center">Task Manager</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Add Task Form (Top Section) -->
+        <h5 class="center-align">Add a New Task</h5>
+        <form id="taskForm">
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <input type="text" id="title" placeholder="Task Title" required>
+                    <label for="title">Task Title</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <textarea id="description" class="materialize-textarea" placeholder="Task Description" required></textarea>
+                    <label for="description">Task Description</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select id="priority" required>
+                        <option value="" disabled selected>Choose Priority</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                    <label for="priority">Priority</label>
+                </div>
+            </div>
+            <div class="row center-align">
+                <button class="btn blue waves-effect waves-light" type="submit">
+                    Add Task
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+
+        <!-- Task Grid Section (Below Form) -->
+        <h5 class="center-align">Task List</h5>
+        <div id="task-section" class="row"></div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <div id="editTaskModal" class="modal">
+        <div class="modal-content">
+            <h5>Edit Task</h5>
+            <div class="input-field">
+                <input type="text" id="edit-title" placeholder="Task Title">
+                <label for="edit-title">Task Title</label>
+            </div>
+            <div class="input-field">
+                <textarea id="edit-description" class="materialize-textarea" placeholder="Task Description"></textarea>
+                <label for="edit-description">Task Description</label>
+            </div>
+            <div class="input-field">
+                <select id="edit-priority">
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+                <label for="edit-priority">Priority</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="saveEditBtn" class="btn green waves-effect waves-light">Save</button>
+            <button class="modal-close btn red waves-effect waves-light">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Materialize JS and Custom Script -->
+    <script src="js/materialize.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
