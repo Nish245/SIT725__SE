@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-wrapper blue">
+            <a href="#" class="brand-logo center">Task Manager</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Add Task Form (Top Section) -->
+        <h5 class="center-align">Add a New Task</h5>
+        <form id="taskForm">
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <input type="text" id="title" placeholder="Task Title" required aria-label="Task Title">
+                    <label for="title">Task Title</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <textarea id="description" class="materialize-textarea" placeholder="Task Description" required aria-label="Task Description"></textarea>
+                    <label for="description">Task Description</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select id="priority" required aria-label="Task Priority">
+                        <option value="" disabled selected>Choose Priority</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                    <label for="priority">Priority</label>
+                </div>
+            </div>
+            <div class="row center-align">
+                <button class="btn blue waves-effect waves-light" type="submit" aria-label="Add Task">
+                    Add Task
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+
+        <!-- Task Grid Section (Below Form) -->
+        <h5 class="center-align">Task List</h5>
+        <div id="task-section" class="row"></div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <div id="editTaskModal" class="modal">
+        <div class="modal-content">
+            <h5>Edit Task</h5>
+            <div class="input-field">
+                <input type="text" id="edit-title" placeholder="Edit Task Title" required aria-label="Edit Task Title">
+                <label for="edit-title">Task Title</label>
+            </div>
+            <div class="input-field">
+                <textarea id="edit-description" class="materialize-textarea" placeholder="Edit Task Description" required aria-label="Edit Task Description"></textarea>
+                <label for="edit-description">Task Description</label>
+            </div>
+            <div class="input-field">
+                <select id="edit-priority" required aria-label="Edit Task Priority">
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+                <label for="edit-priority">Priority</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="saveEditBtn" class="btn green waves-effect waves-light" aria-label="Save Edited Task">Save</button>
+            <button class="modal-close btn red waves-effect waves-light" aria-label="Cancel Edit">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Materialize JS and Custom Script -->
+    <script src="js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Materialize components
+            M.Modal.init(document.querySelectorAll('.modal'));
+            M.FormSelect.init(document.querySelectorAll('select'));
+        });
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
