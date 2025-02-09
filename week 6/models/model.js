@@ -1,5 +1,5 @@
 const { MongoClient, ObjectId } = require('mongodb');
-const uri = "mongodb://localhost:27017";
+const uri = 'mongodb://localhost:27017';
 const client = new MongoClient(uri);
 let collection;
 
@@ -25,17 +25,29 @@ async function addTask(task) {
     return await collection.insertOne(task);
 }
 
-// Update task details
+// Add multiple tasks at once (Bulk Insert)
+async function addBulkTasks(tasks) {
+    try {
+        return await collection.insertMany(tasks);
+    } catch (error) {
+        console.error('Error in bulk insert:', error.message);
+        throw error;
+    }
+}
+
+// Update task details with error handling
 async function updateTask(id, updatedFields) {
     try {
         if (!ObjectId.isValid(id)) {
             throw new Error('Invalid Task ID');
         }
         const objectId = new ObjectId(id);
-        return await collection.updateOne(
+        const result = await collection.updateOne(
             { _id: objectId },
             { $set: updatedFields }
         );
+
+        return result;
     } catch (error) {
         console.error('Error in updateTask:', error.message);
         throw error;
@@ -46,5 +58,6 @@ module.exports = {
     connectDB,
     getTasksByStatus,
     addTask,
-    updateTask
+    addBulkTasks,
+    updateTask,
 };

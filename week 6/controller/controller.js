@@ -8,12 +8,34 @@ async function getTasks(req, res) {
     responseHandler.successResponse(res, 200, tasks, 'Tasks retrieved successfully');
 }
 
-// Add a new task
+// Add a new task (or multiple tasks)
 async function addTask(req, res) {
-    const { title, description, priority } = req.body;
-    if (!title) {
-        return responseHandler.errorResponse(res, 400, 'Title is required');
+    const tasks = req.body; // Handles both single and bulk insertion
+
+    if (Array.isArray(tasks)) {
+        // Bulk validation for each task
+        for (let task of tasks) {
+            if (!task.title || !task.description || !task.priority) {
+                return responseHandler.errorResponse(res, 400, 'All fields are required in each task');
+            }
+            if (task.title.length > 100) { // Restrict title length
+                return responseHandler.errorResponse(res, 400, 'Title is too long (max 100 characters)');
+            }
+        }
+
+        const result = await taskModel.addBulkTasks(tasks);
+        return responseHandler.successResponse(res, 201, result, 'Tasks added successfully');
     }
+
+    // Single task validation
+    const { title, description, priority } = tasks;
+    if (!title || !description || !priority) {
+        return responseHandler.errorResponse(res, 400, 'All fields (title, description, priority) are required');
+    }
+    if (title.length > 100) { // Prevent overly long titles
+        return responseHandler.errorResponse(res, 400, 'Title is too long (max 100 characters)');
+    }
+
     const result = await taskModel.addTask({ title, description, priority });
     responseHandler.successResponse(res, 201, result, 'Task added successfully');
 }
@@ -22,13 +44,17 @@ async function addTask(req, res) {
 async function completeTask(req, res) {
     try {
         const id = req.params.id;
+
         if (!id || !require('mongodb').ObjectId.isValid(id)) {
             return responseHandler.errorResponse(res, 404, 'Task not found');
         }
+
         const result = await taskModel.updateTask(id, { status: 'completed' });
-        if (result.matchedCount === 0) {
+
+        if (!result || result.matchedCount === 0) {
             return responseHandler.errorResponse(res, 404, 'Task not found');
         }
+
         responseHandler.successResponse(res, 200, null, 'Task marked as completed');
     } catch (error) {
         console.error('Error in completeTask:', error.message);
@@ -40,13 +66,17 @@ async function completeTask(req, res) {
 async function deleteTask(req, res) {
     try {
         const id = req.params.id;
+
         if (!id || !require('mongodb').ObjectId.isValid(id)) {
             return responseHandler.errorResponse(res, 404, 'Task not found');
         }
+
         const result = await taskModel.updateTask(id, { status: 'deleted' });
-        if (result.matchedCount === 0) {
+
+        if (!result || result.matchedCount === 0) {
             return responseHandler.errorResponse(res, 404, 'Task not found');
         }
+
         responseHandler.successResponse(res, 200, null, 'Task marked as deleted');
     } catch (error) {
         console.error('Error in deleteTask:', error.message);
@@ -58,5 +88,5 @@ module.exports = {
     getTasks,
     addTask,
     completeTask,
-    deleteTask
+    deleteTask,
 };
